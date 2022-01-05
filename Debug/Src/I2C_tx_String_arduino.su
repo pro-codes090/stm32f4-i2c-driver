@@ -1,0 +1,4 @@
+I2C_tx_String_arduino.c:17:6:I2C2_GPIOInits	24	static
+I2C_tx_String_arduino.c:38:6:I2C2_Inits	8	static
+I2C_tx_String_arduino.c:47:6:GPIO_ButtonInit	24	static
+I2C_tx_String_arduino.c:62:5:main	56	static
