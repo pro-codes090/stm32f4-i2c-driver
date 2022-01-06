@@ -66,7 +66,7 @@ int main(void) {
 	uint8_t len;
 //
 //	//rcv buffer
-	uint8_t rcv_buf[32]= "pppppppppprrrrrrrrrroooooooooo@#";
+	uint8_t rcv_buf[32]= "";
 
 	GPIO_ButtonInit();
 
@@ -88,25 +88,47 @@ int main(void) {
 
 	while (1) {
 
-		//wait till button is pressed
-		while (!GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0));
+			//wait till button is pressed
+			while (!GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0));
 
-		for (int i = 0; i < 50000; i++) {
+			for (int i = 0; i < 50000; i++) {
+
+			}
+
+			commandcode = 0x51 ;
+
+			I2C_SendIT(&I2Chandle,&commandcode , 1, 0x68 , I2C_ENABLE_SR) ;
+
+	//		while( I2C_SendIT(&I2Chandle,&commandcode , 1, 0x68 , I2C_ENABLE_SR) != I2C_READY ) ;
+			for (int i = 0; i < 70000; i++) {
+
+			}
+
+			I2C_ReadIT(&I2Chandle,&len, 1, 0x68 ,I2C_ENABLE_SR ) ;
+			for (int i = 0; i < 70000; i++) {
+
+				}
+			commandcode = 0x52 ;
+	//
+			I2C_SendIT(&I2Chandle, &commandcode, 1, 0x68 , I2C_ENABLE_SR) ;
+			for (int i = 0; i < 70000; i++) {
+
+				}
+
+			I2C_ReadIT(&I2Chandle,rcv_buf,len,0x68,I2C_DISABLE_SR)  ;
+
+			for (int i = 0; i < 70000; i++) {
+
+				}
+
+			printf("%s \n" , rcv_buf) ;
 
 		}
+		//close the communication by disabling the peripherals
+		I2C_PeripheralControl(I2C2, DISABLE);
+		while (1);
 
-		commandcode = 0x51 ;
-
-		while( I2C_SendIT(&I2Chandle,&commandcode , 1, 0x68 , I2C_DISABLE_SR ) != I2C_READY ) ;
-
-		while( I2C_ReadIT(&I2Chandle,&len, 1, 0x68 , I2C_DISABLE_SR) != I2C_READY ) ;
-
-	}
-	//close the communication by disabling the peripherals
-	I2C_PeripheralControl(I2C2, DISABLE);
-	while (1);
-
-	return 0;
+		return 0;
 }
 
 void I2C2_EV_IRQHandler(){
